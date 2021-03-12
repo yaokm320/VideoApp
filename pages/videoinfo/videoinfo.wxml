@@ -1,0 +1,86 @@
+<view style='width:100%;height:100%;'>
+	<!-- 视频组件 -->
+	<video src="{{src}}" muted="{{false}}" controls="{{false}}" autoplay="{{true}}" loop="{{true}}"
+		enable-progress-gesture="{{false}}" style='width:100%;height:100%;' objectFit="{{cover}}">
+
+		<!-- 视频右侧的头像、点赞、评论、分享组件 -->
+		<cover-view class='container-me'>
+			<!-- 头像按钮 -->
+			<cover-image class="face" src='{{serverUrl}}{{publisher.faceImage}}' style='margin-top:40rpx;'
+				bindtap='showPublisher'></cover-image>
+
+			<!-- 点赞按钮 -->
+			<block wx:if="{{userLikeVideo}}">
+				<cover-image class="size-me" src='../resource/images/like1.png' style='margin-top:40rpx;'
+					bindtap='likeVideoOrNot'></cover-image>
+			</block>
+			<block wx:else>
+				<cover-image class="size-me" src='../resource/images/unlike1.png' style='margin-top:40rpx;'
+					bindtap='likeVideoOrNot'></cover-image>
+			</block>
+
+			<!-- 评论按钮 -->
+			<cover-image class="size-me" src='../resource/images/comments.png' style='margin-top:40rpx;'
+				bindtap='leaveComment'></cover-image>
+
+			<!-- 分享按钮 -->
+			<cover-image class="size-me" src='../resource/images/share.png' style='margin-top:40rpx;' bindtap='shareMe'>
+			</cover-image>
+		</cover-view>
+
+		<!-- 视频作者与视频描述信息 -->
+		<cover-view class='container-words'>
+			<cover-view bindtap="showPublisher">@{{publisher.nickname}}</cover-view>
+			<cover-view class='video-desc'>{{videoInfo.videoDesc}}</cover-view>
+		</cover-view>
+
+		<!-- 视频底部的导航栏 -->
+		<cover-view class='container-bottom'>
+			<!-- 首页按钮 -->
+			<cover-image class='' src='../resource/images/index.png' class="size-bottom" bindtap='showIndex'>
+			</cover-image>
+			<!-- 拍摄上传视频 -->
+			<cover-image class='' src='../resource/images/camera.png' class="size-bottom" bindtap='upload'>
+			</cover-image>
+			<!-- 搜索按钮 -->
+			<cover-image class='' src='../resource/images/search.png' class="size-bottom" bindtap='showSearch'>
+			</cover-image>
+			<!-- 我的按钮 -->
+			<cover-image class='' src='../resource/images/mine.png' class="size-bottom" bindtap='showMine'>
+			</cover-image>
+		</cover-view>
+
+	</video>
+</view>
+
+<view>
+	<view class="saySthView">
+		<input name="commentContent" class="saySth" placeholder="{{placeholder}}" confirm-type="send"
+			bindconfirm="saveComment" focus='{{commentFocus}}' value='{{contentValue}}'
+			data-replyFatherCommentId='{{replyFatherCommentId}}' data-replyToUserId='{{replyToUserId}}' />
+	</view>
+
+	<block wx:for="{{commentsList}}" wx:key="key">
+		<view class='comments-all' bindtap='replyFocus' data-fatherCommentId='{{item.id}}'
+			data-toUserId='{{item.fromUserId}}' data-toNickname='{{item.nickname}}'>
+			<view class='container-comments'>
+				<image class="face-comments" src='{{serverUrl}}{{item.faceImage}}'></image>
+				<view class='nickname-comments'>
+					<label class='nickname-lbl'>@{{item.nickname}}</label>
+					于
+					<label class='date-lbl'>{{item.timeAgoStr}}</label>
+					<!-- 留言： -->
+					<block wx:if="{{item.toNickname != null}}">
+						回复
+						<label class='nickname-lbl'>@{{item.toNickname}}</label>
+					</block>
+					<block wx:else>
+						留言：
+					</block>
+				</view>
+			</view>
+			<view class='comments-content'>{{item.comment}}</view>
+		</view>
+	</block>
+
+</view>

@@ -1,0 +1,17 @@
+<view wx:for="{{videoList}}" wx:key="key" class="item-container">
+
+    <view class='back-img' style='width:{{screenWidth}}px;height:235px;'>
+        <!-- item是wx:for循环中默认的元素别名 -->
+        <image src="{{serverUrl}}{{item.coverPath}}" style='width:{{screenWidth}}px;height:235px;' 
+            mode="aspectFit" bindtap='showVideoInfo' data-arrindex='{{index}}'></image>
+    </view>
+
+    <view class="desc">
+        <!-- item是for循环中默认的元素的别名 -->
+        <view class="faceName">
+            <image class='myface' src="{{serverUrl}}{{item.faceImage}}"></image>
+            <view class="nickname">{{item.nickName}}</view>
+        </view>
+    </view>
+
+</view>
